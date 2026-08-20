@@ -8,7 +8,7 @@ module Api
         def create
           throttle_key = "admin-login:#{request.remote_ip}:#{params[:email].to_s.downcase}"
           if Rails.cache.read(throttle_key).to_i >= MAX_ATTEMPTS
-            return render json: { errors: ["Too many login attempts"] }, status: :too_many_requests
+            return render json: { errors: [ "Too many login attempts" ] }, status: :too_many_requests
           end
 
           admin = ::Admin.find_by("LOWER(email) = ?", params[:email].to_s.downcase)
@@ -21,7 +21,7 @@ module Api
           else
             attempts = Rails.cache.read(throttle_key).to_i + 1
             Rails.cache.write(throttle_key, attempts, expires_in: WINDOW)
-            render json: { errors: ["Invalid email or password"] }, status: :unauthorized
+            render json: { errors: [ "Invalid email or password" ] }, status: :unauthorized
           end
         end
 

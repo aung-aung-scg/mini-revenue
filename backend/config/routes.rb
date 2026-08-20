@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :revenue_trends, only: [:show]
+      resource :revenue_trends, only: [ :show ]
 
       namespace :admin do
         post "login", to: "sessions#create"
