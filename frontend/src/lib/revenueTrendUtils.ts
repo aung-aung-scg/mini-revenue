@@ -23,10 +23,11 @@ export function formatCurrency(value: number): string {
   }).format(value);
 }
 
-export function formatPercent(value: number | null): string {
+export function formatPercent(value: number | string | null): string {
   if (value === null) return "N/A";
-  const sign = value > 0 ? "+" : "";
-  return `${sign}${value.toFixed(1)}%`;
+  const num = numericValue(value);
+  const sign = num > 0 ? "+" : "";
+  return `${sign}${num.toFixed(1)}%`;
 }
 
 function dayLabel(dateStr: string): string {
