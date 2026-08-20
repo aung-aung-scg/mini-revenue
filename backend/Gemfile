@@ -7,7 +7,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
 gem "bcrypt", "~> 3.1.7"
-gem "jwt", "~> 2.8"
+gem "jwt", "~> 3.2"
 
 group :development, :test do
   gem "dotenv-rails"
