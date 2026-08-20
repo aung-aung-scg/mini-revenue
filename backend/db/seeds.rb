@@ -9,7 +9,7 @@ current_monday = Date.today.beginning_of_week(:monday)
 previous_monday = current_monday - 7.days
 
 def seed_week(start_date, multiplier: 1.0)
-  impacts = [nil, "positive", "negative", nil, "positive", nil, nil]
+  impacts = [ nil, "positive", "negative", nil, "positive", nil, nil ]
   (0..6).each do |offset|
     date = start_date + offset.days
     RevenueEntry.find_or_create_by!(date: date) do |entry|

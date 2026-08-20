@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
+  get "/", to: "health#show"
   get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :api do
     namespace :v1 do
-      resource :revenue_trends, only: [:show]
+      resource :revenue_trends, only: [ :show ]
 
       namespace :admin do
         post "login", to: "sessions#create"

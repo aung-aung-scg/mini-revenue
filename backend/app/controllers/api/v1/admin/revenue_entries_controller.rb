@@ -10,8 +10,8 @@ module Api
         before_action :set_revenue_entry, only: %i[show update destroy]
 
         def index
-          page = [params.fetch(:page, 1).to_i, 1].max
-          per_page = [[params.fetch(:per_page, 25).to_i, 1].max, 100].min
+          page = [ params.fetch(:page, 1).to_i, 1 ].max
+          per_page = [ [ params.fetch(:per_page, 25).to_i, 1 ].max, 100 ].min
           scope = RevenueEntry.order(date: :desc)
           scope = scope.where("date >= ?", params[:start_date]) if params[:start_date].present?
           scope = scope.where("date <= ?", params[:end_date]) if params[:end_date].present?
@@ -62,11 +62,11 @@ module Api
         end
 
         def render_record_not_found
-          render json: { errors: ["Revenue entry not found"] }, status: :not_found
+          render json: { errors: [ "Revenue entry not found" ] }, status: :not_found
         end
 
         def render_duplicate_record
-          render json: { errors: ["A revenue entry already exists for that date"] }, status: :unprocessable_content
+          render json: { errors: [ "A revenue entry already exists for that date" ] }, status: :unprocessable_content
         end
       end
     end

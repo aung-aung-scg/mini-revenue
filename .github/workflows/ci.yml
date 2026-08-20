@@ -35,21 +35,20 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3.6'
-          bundler-cache: false
-
-      - name: Install backend dependencies
-        run: bundle install
+          bundler-cache: true
+          working-directory: backend
 
       - name: Prepare test database
-        run: bin/rails db:test:prepare
+        run: bundle exec rails db:test:prepare
 
-      - name: Run security scans
-        run: |
-          bin/brakeman --no-pager
-          bin/bundler-audit
+      - name: Run Brakeman
+        run: bundle exec brakeman --no-pager
+
+      - name: Run Bundler Audit
+        run: bundle exec bundler-audit check --update
 
       - name: Run RuboCop
-        run: bin/rubocop -f github
+        run: bundle exec rubocop -f github
 
       - name: Run RSpec
         run: bundle exec rspec spec

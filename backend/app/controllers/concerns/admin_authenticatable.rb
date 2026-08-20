@@ -9,13 +9,13 @@ module AdminAuthenticatable
 
   def authenticate_admin!
     token = bearer_token || cookies[:admin_session]
-    return render json: { errors: ["Unauthorized"] }, status: :unauthorized unless token
+    return render json: { errors: [ "Unauthorized" ] }, status: :unauthorized unless token
 
     payload = JwtService.decode(token)
     @current_admin = ::Admin.find_by(id: payload["admin_id"])
-    render json: { errors: ["Unauthorized"] }, status: :unauthorized unless @current_admin
+    render json: { errors: [ "Unauthorized" ] }, status: :unauthorized unless @current_admin
   rescue JWT::DecodeError
-    render json: { errors: ["Unauthorized"] }, status: :unauthorized
+    render json: { errors: [ "Unauthorized" ] }, status: :unauthorized
   end
 
   def bearer_token
