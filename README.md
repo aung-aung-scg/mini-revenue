@@ -27,8 +27,8 @@ On Windows, install Ruby with RubyInstaller, Node.js from nodejs.org, and Postgr
 Clone the repository root, then install each application’s dependencies from the shared checkout:
 
 ```bash
-git clone <your-repo-url>
-cd "ror job test"
+git clone <https://github.com/aung-aung-scg/mini-revenue.git>
+cd "mini-revenue"
 bundle install --gemfile backend/Gemfile
 npm install --prefix frontend
 ```
