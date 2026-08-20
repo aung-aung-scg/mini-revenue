@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
       path: "/",
       httponly: true,
       secure: Rails.env.production?,
-      same_site: :lax,
+      same_site: Rails.env.production? ? :none : :lax,
       expires: 24.hours.from_now
     }
   end
