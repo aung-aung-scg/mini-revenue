@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      JWT_SECRET: ci-test-secret
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: root
+          POSTGRES_USER: postgres
+          POSTGRES_DB: miniapp_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d miniapp_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.6'
+          bundler-cache: false
+
+      - name: Install backend dependencies
+        run: bundle install
+
+      - name: Prepare test database
+        run: bin/rails db:test:prepare
+
+      - name: Run security scans
+        run: |
+          bin/brakeman --no-pager
+          bin/bundler-audit
+
+      - name: Run RuboCop
+        run: bin/rubocop -f github
+
+      - name: Run RSpec
+        run: bundle exec rspec spec
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run frontend tests
+        run: npm test
+
+      - name: Build frontend
+        run: npm run build
