@@ -182,6 +182,3 @@ The frontend development server runs on port `3000`; the Rails API runs on port 
 - Backend: Rails 8 API-only, PostgreSQL, RSpec, bcrypt, JWT, rack-cors
 - Frontend: Next.js 15, TypeScript, Tailwind CSS, Chart.js, react-chartjs-2
 
-## Known dependency follow-up
-
-`npm audit` reports one remaining high-severity advisory for the nested `postcss@8.4.31` dependency shipped by `next@15.5.23`, plus one moderate advisory in the same dependency tree. `sharp` is overridden to the compatible patched `0.35.x` line. The PostCSS advisory cannot be resolved safely with a compatible override because Next 15 declares the 8.4.x range; `npm audit fix --force` upgrades Next to 16.3.1, which is a breaking major-version change. Upgrade Next separately with a compatibility review and full browser regression pass.
